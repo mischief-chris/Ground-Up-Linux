@@ -7,19 +7,22 @@
 #include <string.h>
 
 
-#define BUFFER_SIZE 512
+#define BUFFER_SIZE 1000
 
 
 /* Function declarations */
 int indexOf(FILE *fptr, const char *word, int *line, int *col);
 
 
-int main(){
+int main()
+{
     FILE *fptr;
     char path[100];
+
     char word[50];
 
     int line, col;
+
 
     /* Input file path */
     printf("Enter file path: ");
@@ -47,9 +50,10 @@ int main(){
     indexOf(fptr, word, &line, &col);
 
     if (line != -1)
-        printf("|%d|%d|  %s\n", line + 1, col + 1, word);
+        printf("'%s' found at line: %d, col: %d\n", word, line + 1, col + 1);
     else
-        printf("%s does not exists.", word);
+        printf("'%s' does not exists.", word);
+    
 
     // Close file
     fclose(fptr);

@@ -52,7 +52,7 @@ main(int argc, char *argv[]) {
     fin = fopen(argv[1], "r");
 
     if ( fin ) {
-        while ( line = read_line(fin) ) {
+        while ((line = read_line(fin))){
             if ( strstr(line, argv[2]) ){
                 fprintf(stdout, "%s\n", line);
             }

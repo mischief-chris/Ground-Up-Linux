@@ -20,12 +20,10 @@ FILE *fptr = fopen(FILENAME, "r");
 if(!fp) {
 perror("File opening failed");
 }
-while ((c = fgetc(fp)) != EOF){
-    data[n++] = c;
-    mystr = data;
-}
 while(fgets(line[i], BUFF, fptr)){
         i++;
+	data[n++] = line[i];
+	mystr = data;
         line[i][strlen(line[i]) - 1] = '\0';
         }
     j = i;

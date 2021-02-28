@@ -6,6 +6,7 @@
 #define FILENAME "PKGBUILD"
 
 char data[BUFF];
+char *ata = data;
 char line[BUFF][BUFF];
 char grid[BUFF][BUFF];
 int i = 0;
@@ -55,9 +56,35 @@ for (x = 0; x < i; x++) {
     }
 }
 
+int compare(char *X, char *Y){
+    while (*X && *Y){
+        if (*X != *Y)
+            return 0;
+        X++;
+        Y++;
+    }
+return (*Y == '\0');
+}
+
+// Function to implement strstr() function
+char* seeker(char* X, char* Y){
+    while (*X != '\0'){
+        if ((*X == *Y) && compare(X, Y))
+            return X;
+        X++;
+    }
+    return NULL;
+}
+
 int main(void){
     char *hello = opensesame();
-    printgrid_linenum();
+    //printgrid_linenum();
     //printf("%s", hello);
+    char *a = seeker(data, "pkgname=");
+    strtok(a, "\n");
+    char *b = strcpy(b,a);
+    printf("%s\n", b);
+    //const char *b = seeker(data, "pkgver=");
+    //printf("%s\n", b);
     return 0;
 }

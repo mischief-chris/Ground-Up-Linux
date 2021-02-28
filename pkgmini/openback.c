@@ -26,437 +26,379 @@ if(data){
 return data;
 }
 
-void removestr(char *string, char *sub) {
-  char *match;
-  int len = strlen(sub);
-  while ((match = strstr(string, sub))) {
-    *match = '\0';
-    strcat(string, match+len);
+char *sdup(char *original) {
+    char *duplicate = malloc(strlen(original) + 1);
+    if (duplicate == NULL) { return NULL; }
+
+    strcpy(duplicate, original);
+    return duplicate;
+}
+
+// remove tokken from string str, tokken
+void rmtok(char *X, char *Y) {
+  char *m;
+  int len = strlen(Y);
+  while ((m = strstr(X, Y))) {
+    *m = '\0';
+    strcat(X, m+len);
     }
 }
 
-void replacestr(char *line, char *search, char *replace){
-     char *sp;
-     if ((sp = strstr(line, search)) == NULL) {
+// replace one string at a time src, str, new
+void rplstr(char *X, char *Y, char *Z){
+     char *q;
+     if ((q = strstr(X, Y)) == NULL) {
          return;
      }
-     int search_len = strlen(search);
-     int replace_len = strlen(replace);
-     int tail_len = strlen(sp+search_len);
-     memmove(sp+replace_len,sp+search_len,tail_len+1);
-     memcpy(sp, replace, replace_len);
+     int y_len = strlen(Y);
+     int z_len = strlen(Z);
+     int t_len = strlen(q+y_len);
+     memmove(q+z_len,q+y_len,t_len+1);
+     memcpy(q, Z, z_len);
 }
 
-void strreplace(char *src, char *str, char *rep){
-char *p = strstr(src, str);
-  if(p){
-  int len = strlen(src)+strlen(rep)-strlen(str);
+// replace all src, str, new
+void strmagic(char *X, char *Y, char *Z){
+char *w = strstr(X, Y);
+  if(w){
+  int len = strlen(X)+strlen(Z)-strlen(Y);
   char r[len];
   memset(r, 0, len);
-    if(p >= src){
-    strncpy(r, src, p-src);
-    r[p-src]='\0';
-    strncat(r, rep, strlen(rep));
-    strncat(r, p+strlen(str), p+strlen(str)-src+strlen(src));
-    strcpy(src, r);
-    strreplace(p+strlen(rep), str, rep);
+    if(w >= X){
+    strncpy(r, X, w-X);
+    r[w-X]='\0';
+    strncat(r, Z, strlen(Z));
+    strncat(r, w+strlen(Y), w+strlen(Y)-X+strlen(X));
+    strcpy(X, r);
+    strmagic(w+strlen(Z), Y, Z);
     }
   }
 }
 
+void strstrip(char *X, char *Y){
+  strtok(X, "\n");
+  rmtok(X, Y);
+  rmtok(X, "'");
+  rmtok(X, "\"");
+  rmtok(X, "(");
+  rmtok(X, ")");
+  rmtok(X, "{");
+  rmtok(X, "}");
+  rmtok(X, ",");
+}
+
 char *pkg(){
-char *pkg = strstr(data, PKG);
+char *dup = sdup(data);
+char *pkg = strstr(dup, PKG);
   if(!pkg){
   return strdup("");
   } else {
-  strtok(pkg, "\n");
-  removestr(pkg, PKG);
+  strstrip(pkg, PKG);
   }
 return pkg;
 }
 
 char *ver(){
-char *ver = strstr(data, VER);
+char *dup = sdup(data);
+char *ver = strstr(dup, VER);
   if(!ver){
   return strdup("");
   } else {
-  strtok(ver, "\n");
-  removestr(ver, VER);
+  strstrip(ver, VER);
   }
 return ver;
 }
 
 char *rel(){
-char *rel = strstr(data, REL);
+char *dup = sdup(data);
+char *rel = strstr(dup, REL);
   if(!rel){
   return strdup("");
   } else {
-  strtok(rel, "\n");
-  removestr(rel, REL);
+  strstrip(rel, REL);
   }
 return rel;
 }
 
 char *epc(){
-char *epc = strstr(data, EPC);
+char *dup = sdup(data);
+char *epc = strstr(dup, EPC);
   if(!epc){
   return strdup("");
   } else {
-  strtok(epc, "\n");
-  removestr(epc, EPC);
+  strstrip(epc, EPC);
   }
 return epc;
 }
 
 char *dsc(){
-char *dsc = strstr(data, DSC);
+char *dup = sdup(data);
+char *dsc = strstr(dup, DSC);
   if(!dsc){
   return strdup("");
   } else {
-  strtok(dsc, "\n");
-  removestr(dsc, DSC);
-  removestr(dsc, "'");
+  strstrip(dsc, DSC);
   }
 return dsc;
 }
 
 char *ark(){
-char *ark = strstr(data, ARK);
+char *dup = sdup(data);
+char *ark = strstr(dup, ARK);
   if(!ark){
   return strdup("");
   } else {
-  strtok(ark, "\n");
-  removestr(ark, ARK);
-  removestr(ark, "'");
-  removestr(ark, "(");
-  removestr(ark, ")");
+  strstrip(ark, ARK);
   }
 return ark;
 }
 
 char *url(){
-char *url = strstr(data, URL);
+char *dup = sdup(data);
+char *url = strstr(dup, URL);
   if(!url){
   return strdup("");
   } else {
-  strtok(url, "\n");
-  removestr(url, URL);
-  removestr(url, "'");
-  removestr(url, "\"");
-  removestr(url, "(");
-  removestr(url, ")");
+  strstrip(url, URL);
   }
 return url;
 }
 
 char *lic(){
-char *lic = strstr(data, LIC);
+char *dup = sdup(data);
+char *lic = strstr(dup, LIC);
   if(!lic){
   return strdup("");
   } else {
-  strtok(lic, "\n");
-  removestr(lic, LIC);
-  removestr(lic, "'");
-  removestr(lic, "\"");
-  removestr(lic, "(");
-  removestr(lic, ")");
+  strstrip(lic, LIC);
   }
 return lic;
 }
 
 char *grp(){
-char *grp = strstr(data, GRP);
+char *dup = sdup(data);
+char *grp = strstr(dup, GRP);
   if(!grp){
   return strdup("");
   } else {
-  strtok(grp, "\n");
-  removestr(grp, GRP);
-  removestr(grp, "'");
-  removestr(grp, "\"");
-  removestr(grp, "(");
-  removestr(grp, ")");
+  strstrip(grp, GRP);
   }
 return grp;
 }
 
 char *dep(){
-char *dep = strstr(data, DEP);
+char *dup = sdup(data);
+char *dep = strstr(dup, DEP);
   if(!dep){
   return strdup("");
   } else {
-  strtok(dep, "\n");
-  removestr(dep, DEP);
-  removestr(dep, "'");
-  removestr(dep, "\"");
-  removestr(dep, "(");
-  removestr(dep, ")");
+  strstrip(dep, DEP);
   }
 return dep;
 }
 
 char *odp(){
-char *odp = strstr(data, ODP);
+char *dup = sdup(data);
+char *odp = strstr(dup, ODP);
   if(!odp){
   return strdup("");
   } else {
-  strtok(odp, "\n");
-  removestr(odp, ODP);
-  removestr(odp, "'");
-  removestr(odp, "\"");
-  removestr(odp, "(");
-  removestr(odp, ")");
+  strstrip(odp, ODP);
   }
 return odp;
 }
 
 char *mdp(){
-char *mdp = strstr(data, MDP);
+char *dup = sdup(data);
+char *mdp = strstr(dup, MDP);
   if(!mdp){
   return strdup("");
   } else {
-  strtok(mdp, "\n");
-  removestr(mdp, MDP);
-  removestr(mdp, "'");
-  removestr(mdp, "\"");
-  removestr(mdp, "(");
-  removestr(mdp, ")");
+  strstrip(mdp, MDP);
   }
 return mdp;
 }
 
 char *cdp(){
-char *cdp = strstr(data, CDP);
+char *dup = sdup(data);
+char *cdp = strstr(dup, CDP);
   if(!cdp){
   return strdup("");
   } else {
-  strtok(cdp, "\n");
-  removestr(cdp, CDP);
-  removestr(cdp, "'");
-  removestr(cdp, "\"");
-  removestr(cdp, "(");
-  removestr(cdp, ")");
+  strstrip(cdp, CDP);
   }
 return cdp;
 }
 
 char *prv(){
-char *prv = strstr(data, PRV);
+char *dup = sdup(data);
+char *prv = strstr(dup, PRV);
   if(!prv){
   return strdup("");
   } else {
-  strtok(prv, "\n");
-  removestr(prv, PRV);
-  removestr(prv, "'");
-  removestr(prv, "\"");
-  removestr(prv, "(");
-  removestr(prv, ")");
+  strstrip(prv, PRV);
   }
 return prv;
 }
 
 char *con(){
-char *con = strstr(data, CON);
+char *dup = sdup(data);
+char *con = strstr(dup, CON);
   if(!con){
   return strdup("");
   } else {
-  strtok(con, "\n");
-  removestr(con, CON);
-  removestr(con, "'");
-  removestr(con, "\"");
-  removestr(con, "(");
-  removestr(con, ")");
+  strstrip(con, CON);
   }
 return con;
 }
 
 char *rpl(){
-char *rpl = strstr(data, RPL);
+char *dup = sdup(data);
+char *rpl = strstr(dup, RPL);
   if(!rpl){
   return strdup("");
   } else {
-  strtok(rpl, "\n");
-  removestr(rpl, RPL);
-  removestr(rpl, "'");
-  removestr(rpl, "\"");
-  removestr(rpl, "(");
-  removestr(rpl, ")");
+  strstrip(rpl, RPL);
   }
 return rpl;
 }
 
 char *bac(){
-char *bac = strstr(data, BAC);
+char *dup = sdup(data);
+char *bac = strstr(dup, BAC);
   if(!bac){
   return strdup("");
   } else {
-  strtok(bac, "\n");
-  removestr(bac, BAC);
-  removestr(bac, "'");
-  removestr(bac, "\"");
-  removestr(bac, "(");
-  removestr(bac, ")");
+  strstrip(bac, BAC);
   }
 return bac;
 }
 
 char *opt(){
-char *opt = strstr(data, OPT);
+char *dup = sdup(data);
+char *opt = strstr(dup, OPT);
   if(!opt){
   return strdup("");
   } else {
-  strtok(opt, "\n");
-  removestr(opt, OPT);
-  removestr(opt, "'");
-  removestr(opt, "\"");
-  removestr(opt, "(");
-  removestr(opt, ")");
+  strstrip(opt, OPT);
   }
 return opt;
 }
 
 char *ins(){
-char *ins = strstr(data, INS);
+char *dup = sdup(data);
+char *ins = strstr(dup, INS);
   if(!ins){
   return strdup("");
   } else {
-  strtok(ins, "\n");
-  removestr(ins, INS);
-  removestr(ins, "'");
-  removestr(ins, "\"");
-  removestr(ins, "(");
-  removestr(ins, ")");
+  strstrip(ins, INS);
   }
 return ins;
 }
 
 char *chg(){
-char *chg = strstr(data, CHG);
+char *dup = sdup(data);
+char *chg = strstr(dup, CHG);
   if(!chg){
   return strdup("");
   } else {
-  strtok(chg, "\n");
-  removestr(chg, CHG);
-  removestr(chg, "'");
-  removestr(chg, "\"");
-  removestr(chg, "(");
-  removestr(chg, ")");
+  strstrip(chg, CHG);
   }
 return chg;
 }
 
 char *src(){
-char *src = strstr(data, SRC);
+char *dup = sdup(data);
+char *src = strstr(dup, SRC);
   if(!src){
   return strdup("");
   } else {
-  strtok(src, "\n");
-  removestr(src, SRC);
-  removestr(src, "'");
-  removestr(src, "\"");
-  removestr(src, "(");
-  removestr(src, ")");
-  removestr(src, "{");
-  removestr(src, "}");
-  replacestr(src, ",.asc", "");
-  removestr(src, ",.asc");
-  replacestr(src, "$pkgname-$pkgver", pkg());
+  strstrip(src, SRC);
   }
 return src;
 }
 
 char *nex(){
-char *nex = strstr(data, NEX);
+char *dup = sdup(data);
+char *nex = strstr(dup, NEX);
   if(!nex){
   return strdup("");
   } else {
-  strtok(nex, "\n");
-  removestr(nex, NEX);
-  removestr(nex, "'");
-  removestr(nex, "\"");
-  removestr(nex, "(");
-  removestr(nex, ")");
+  strstrip(nex, NEX);
   }
 return nex;
 }
 
 char *vpg(){
-char *vpg = strstr(data, VPG);
+char *dup = sdup(data);
+char *vpg = strstr(dup, VPG);
   if(!vpg){
   return strdup("");
   } else {
-  strtok(vpg, "\n");
-  removestr(vpg, VPG);
-  removestr(vpg, "'");
-  removestr(vpg, "\"");
-  removestr(vpg, "(");
-  removestr(vpg, ")");
+  strstrip(vpg, VPG);
   }
 return vpg;
 }
 
 char *md5(){
-char *md5 = strstr(data, MD5);
+char *dup = sdup(data);
+char *md5 = strstr(dup, MD5);
   if(!md5){
   return strdup("");
   } else {
-  strtok(md5, "\n");
-  removestr(md5, MD5);
-  removestr(md5, "'");
-  removestr(md5, "\"");
-  removestr(md5, "(");
-  removestr(md5, ")");
+  strstrip(md5, MD5);
   }
 return md5;
 }
 
 char *sh1(){
-char *sh1 = strstr(data, SH1);
+char *dup = sdup(data);
+char *sh1 = strstr(dup, SH1);
   if(!sh1){
   return strdup("");
   } else {
-  strtok(sh1, "\n");
-  removestr(sh1, SH1);
-  removestr(sh1, "'");
-  removestr(sh1, "\"");
-  removestr(sh1, "(");
-  removestr(sh1, ")");
+  strstrip(sh1, SH1);
   }
 return sh1;
 }
 
 char *sh2(){
-char *sh2 = strstr(data, SH2);
+char *dup = sdup(data);
+char *sh2 = strstr(dup, SH2);
   if(!sh2){
   return strdup("");
   } else {
-  strtok(sh2, "\n");
-  removestr(sh2, SH2);
-  removestr(sh2, "'");
-  removestr(sh2, "\"");
-  removestr(sh2, "(");
-  removestr(sh2, ")");
+  strstrip(sh2, SH2);
   }
 return sh2;
 }
 
 char *sh5(){
-char *sh5 = strstr(data, SH5);
+char *dup = sdup(data);
+char *sh5 = strstr(dup, SH5);
   if(!sh5){
   return strdup("");
   } else {
-  strtok(sh5, "\n");
-  removestr(sh5, SH5);
-  removestr(sh5, "'");
-  removestr(sh5, "\"");
-  removestr(sh5, "(");
-  removestr(sh5, ")");
+  strstrip(sh5, SH5);
   }
 return sh5;
 }
 
 int main(void){
 openfile();
-char *a = dep();
+char *a = pkg();
+char *b =ver();
+char *c = rel();
+char *d = epc();
+char *e = dep();
+
+
+
+//rplstr(a, "$pkgname-$pkgver", "japan-razer");
 printf("%s\n", a);
+printf("%s\n", b);
+printf("%s\n", c);
+printf("%s\n", d);
+printf("%s\n", e);
 return 0;
 }

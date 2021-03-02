@@ -1,4 +1,4 @@
-#include "pkgd.h"
+#include "HEADER.h"
 
 FILE *fptr;
 long length;
@@ -392,13 +392,23 @@ char *c = rel();
 char *d = epc();
 char *e = dep();
 
-
-/*
-//rplstr(a, "$pkgname-$pkgver", "japan-razer");
 printf("%s\n", a);
 printf("%s\n", b);
 printf("%s\n", c);
 printf("%s\n", d);
-printf("%s\n", e);*/
+printf("%s\n", e);
+
+printf("%s\n", a);
+printf("%s\n", b);
+printf("%s\n", c);
+printf("%s\n", d);
+printf("%s\n", e);
+
+printf("%s\n", a);
+printf("%s\n", b);
+printf("%s\n", c);
+printf("%s\n", d);
+printf("%s\n", e);
+
 return 0;
 }

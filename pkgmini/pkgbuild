@@ -1,0 +1,58 @@
+# Copyright:
+# License:
+# Distribution: Example Linux
+# Homepage: https://example.com/
+# Package: notes, info, comments, copyright
+
+pkgname=
+version=5.39
+release=1
+epoch=1
+maintainer="mischiefchristophe@gmail.com"
+descript="File type identification utility"
+url="https://www.darwinsys.com/file/"
+license="custom"
+group="devel"
+arch="x86_64"
+makedepends=()
+depends=(glibc, zlib, xz, bzip2)
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=(libtool, strip)
+scripts=()
+changelog=()
+source=("https://astron.com/pub/$pkgname/$pkgname-$pkgver.tar.gz")
+noextract=()
+validpgpkeys=()
+md5sum=('f05d286a76d9556243d0cb05814929c2ecf3a5ba07963f8f70bfaaa70517fad1')
+
+prep(){
+  cd $name-$version
+  # do some things
+}
+
+build(){
+  cd $name-$version
+  # build package
+	./configure \
+		--prefix=/usr \
+		--enable-static
+	make
+	make DESTDIR=$PKG install
+}
+
+check(){
+  cd $name-$version
+  # run compile checks
+  make check
+}
+
+clean(){
+  cd $name-$version
+  # run compile checks
+  make check
+}

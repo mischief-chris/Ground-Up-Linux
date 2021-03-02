@@ -1,5 +1,5 @@
-#ifndef PKGD_H
-#define PKGD_H
+#ifndef HEADER_H
+#define HRADER_H
 //the entire header file file
 #include <stdio.h>
 #include <stdlib.h>

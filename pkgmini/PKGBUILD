@@ -2,8 +2,8 @@
 # Contributor: Allan McRae <allan@archlinux.org>
 # Contributor: Andreas Radke <andyrtr@archlinux.org>
 
-pkgname=file
-pkgver=5.39
+pkgname='file'
+pkgver='5.39'
 pkgrel=1
 epoch=1
 pkgdesc='File type identification utility'
